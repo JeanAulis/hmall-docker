@@ -1,0 +1,4 @@
+hm:
+  db:
+    host: localhost # 修改为你自己的MySQLIP地址
+    pw: root # 修改为自己MySQL密码
