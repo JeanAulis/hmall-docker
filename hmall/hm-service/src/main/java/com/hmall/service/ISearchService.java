@@ -1,4 +1,4 @@
 package com.hmall.service;
 
-public interface SearchService {
+public interface ISearchService {
 }

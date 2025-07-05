@@ -1,6 +1,6 @@
 package com.hmall.service.impl;
 
-import com.hmall.service.OrderService;
+import com.hmall.service.IOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OrderServiceImpl implements OrderService {
+public class IOrderServiceImpl implements IOrderService {
 
 }

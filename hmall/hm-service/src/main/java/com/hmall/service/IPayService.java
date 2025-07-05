@@ -1,4 +1,4 @@
 package com.hmall.service;
 
-public interface PayService {
+public interface IPayService {
 }

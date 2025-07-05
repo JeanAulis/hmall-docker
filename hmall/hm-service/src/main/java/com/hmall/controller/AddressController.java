@@ -37,11 +37,11 @@ public class AddressController {
     @ApiOperation("根据id查询地址")
     @GetMapping("{addressId}")
     public AddressDTO findAddressById(@ApiParam("地址id") @PathVariable("addressId") Long id) {
-
+        return null;
     }
     @ApiOperation("查询当前用户地址列表")
     @GetMapping
     public List<AddressDTO> findMyAddresses() {
-
+        return null;
     }
 }
