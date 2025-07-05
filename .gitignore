@@ -1,1 +1,3 @@
 **/.DS_Store
+/logs
+logs/hm-service/spring.log

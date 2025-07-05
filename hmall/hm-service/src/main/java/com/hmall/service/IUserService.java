@@ -2,8 +2,11 @@ package com.hmall.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hmall.domain.dto.LoginFormDTO;
+import com.hmall.domain.dto.RegisterFormDTO;
 import com.hmall.domain.po.User;
 import com.hmall.domain.vo.UserLoginVO;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -16,6 +19,12 @@ import com.hmall.domain.vo.UserLoginVO;
 public interface IUserService extends IService<User> {
 
     UserLoginVO login(LoginFormDTO loginFormDTO);
+
+    void register(RegisterFormDTO registerFormDTO);
+
+    UserLoginVO getCurrentUser();
+
+    void logout(HttpServletRequest request);
 
     void deductMoney(String pw, Integer totalFee);
 }
