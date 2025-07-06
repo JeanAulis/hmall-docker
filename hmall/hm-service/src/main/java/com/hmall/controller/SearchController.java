@@ -23,6 +23,7 @@ public class SearchController {
     @ApiOperation("搜索商品")
     @GetMapping("/list")
     public PageDTO<ItemDTO> search(ItemPageQuery query) {
+
         return null;
     }
 }

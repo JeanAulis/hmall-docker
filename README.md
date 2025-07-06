@@ -68,6 +68,71 @@ hmall-docker/
 
 ## 🛠️ 开发指南
 
+### Java 项目打包
+
+```bash
+# 进入后端项目目录
+cd hmall
+
+# 清理并打包（跳过测试）
+mvn clean package -DskipTests
+
+# 或者完整打包（包含测试）
+mvn clean package
+
+# 查看打包结果
+ls -la hm-service/target/
+```
+
+### 打包后部署
+
+```bash
+# 停止现有容器
+docker-compose down
+
+# 清理旧的 target 目录（如果存在权限问题）
+sudo rm -rf hmall/hm-service/target
+
+# 重新打包
+cd hmall && mvn clean package -DskipTests
+
+# 启动容器（会自动挂载新的 jar 包）
+cd .. && docker-compose up -d
+
+# 查看服务状态
+docker-compose ps
+```
+
+### 自动化打包脚本
+
+创建 `build-and-deploy.sh` 脚本：
+
+```bash
+#!/bin/bash
+echo "开始构建和部署..."
+
+# 停止容器
+docker-compose down
+
+# 清理并打包
+cd hmall
+mvn clean package -DskipTests
+if [ $? -ne 0 ]; then
+    echo "打包失败！"
+    exit 1
+fi
+
+# 启动容器
+cd ..
+docker-compose up -d
+
+echo "部署完成！"
+echo "访问地址："
+echo "- 用户端: http://localhost:18080"
+echo "- 管理端: http://localhost:18081"
+echo "- 后端API: http://localhost:8080"
+```
+
 ### 本地开发环境
 
 ```bash

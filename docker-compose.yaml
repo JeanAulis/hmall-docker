@@ -24,7 +24,7 @@ services:
       - hmall-network
 
   nginx:
-    image: nginx:latest
+    image: nginx:1.29.0
     container_name: hmall-nginx
     ports:
       - "80:80"           # 默认nginx页面
@@ -33,7 +33,7 @@ services:
       - "18082:18082"     # hm-refresh-admin前端
     volumes:
       # 挂载静态文件
-      - ./hmall-nginx/html:/usr/share/nginx/html  # 挂载静态文件目录，ro表示只读模式
+      - ./hmall-nginx/html:/usr/share/nginx/html:ro  # 挂载静态文件目录，ro表示只读模式
       # 挂载日志目录
       - ./hmall-nginx/logs:/var/log/nginx
       # 挂载修正后的nginx配置文件

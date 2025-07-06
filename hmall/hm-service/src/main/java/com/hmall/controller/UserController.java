@@ -32,6 +32,7 @@ public class UserController {
     })
     @PutMapping("/money/deduct")
     public void deductMoney(@RequestParam("pw") String pw,@RequestParam("amount") Integer amount){
+        userService.deductMoney(pw, amount);
     }
 }
 

@@ -43,8 +43,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 1.数据校验
         String username = loginDTO.getUsername();
         String password = loginDTO.getPassword();
+
         // 2.根据用户名或手机号查询
         User user = lambdaQuery().eq(User::getUsername, username).one();
+        // .one()方法返回查询结果中的单一对象，如果没有结果或有多条结果，可能会返回null或抛出异常
+
         Assert.notNull(user, "用户名错误");
         // 3.校验是否禁用
         if (user.getStatus() == UserStatus.FROZEN) {
@@ -66,7 +69,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
     public static void main(String[] args) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String rawPassword = "123456";
+        String rawPassword = "123";
         String encodedPassword = encoder.encode(rawPassword);
         System.out.println("Encoded password: " + encodedPassword);
     }
@@ -81,10 +84,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
 
         // 2.尝试扣款
-        // int i = baseMapper.updateMoney(UserContext.getUser(), totalFee);
-        // if (i <= 0) {
-        //     throw new RuntimeException("扣款失败，可能是余额不足！");
-        // }
-        // log.info("扣款成功");
+        int i = baseMapper.updateMoney(UserContext.getUser(), totalFee);
+        if (i <= 0) {
+            throw new RuntimeException("扣款失败，可能是余额不足！");
+        }
+        log.info("扣款成功");
     }
 }
