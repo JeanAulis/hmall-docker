@@ -1,27 +1,31 @@
 version: '3.8'
 
 services:
-  # mysql:
-  #   image: mysql:8.0
-  #   container_name: hmall-mysql
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: 123456
-  #     MYSQL_DATABASE: hmall
-  #     MYSQL_USER: hmall
-  #     MYSQL_PASSWORD: 123456
-  #   ports:
-  #     - "3306:3306"
-  #   volumes:
-  #     - mysql_data:/var/lib/mysql
-  #     - ./hmall.sql:/docker-entrypoint-initdb.d/hmall.sql
-  #   command: --default-authentication-plugin=mysql_native_password
-  #   restart: unless-stopped
-  #   networks:
-  #     - hmall-network
+  mysql:
+    image: mysql:8.0.36
+    container_name: hmall-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: hmall
+      MYSQL_USER: hmall
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./hmall.sql:/docker-entrypoint-initdb.d/hmall.sql
+      - ./hmall.sql:/root/hmall.sql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    labels:
+      - createBy=jeanAulis
+      - createTime=2025-07-06
+    networks:
+      - hmall-network
 
   nginx:
     image: nginx:latest
-    container_name: nginx
+    container_name: hmall-nginx
     ports:
       - "80:80"           # 默认nginx页面
       - "18080:18080"     # hmall-portal前端
@@ -37,6 +41,9 @@ services:
     environment:
       - TZ=Asia/Shanghai
     restart: unless-stopped
+    labels:
+      - createBy=jeanAulis
+      - createTime=2025-07-06
     networks:
       - hmall-network
     depends_on:
@@ -57,6 +64,9 @@ services:
       - ./hmall/hm-service/src/main/resources:/app/config:ro
     working_dir: /app
     command: java -jar hm-service.jar
+    labels:
+      - createBy=jeanAulis
+      - createTime=2025-07-06
     environment:
       - TZ=Asia/Shanghai
       - JAVA_OPTS=-Xms512m -Xmx1024m -XX:+UseG1GC
