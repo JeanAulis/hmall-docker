@@ -43,6 +43,7 @@ docker-compose ps
 | 管理端 | http://localhost:18081 | 后台管理 |
 | 刷新管理端 | http://localhost:18082 | 数据刷新管理 |
 | 后端API | http://localhost:8080 | RESTful API |
+| Redis | localhost:6379 | 缓存服务 |
 
 ## 📁 项目结构
 
@@ -251,10 +252,14 @@ docker-compose logs --tail=100    # 查看最近100行
 # 容器操作
 docker-compose exec nginx bash    # 进入容器
 docker-compose exec hm-service bash
+docker-compose exec redis redis-cli -a 123456  # 进入Redis
 
 # 更新部署
 docker-compose pull               # 拉取最新镜像
 docker-compose up -d --build      # 重新构建并启动
+
+# Nginx 构建（生产环境）
+./build-nginx.sh                  # 构建自定义nginx镜像
 ```
 
 ## 🔄 更新部署
@@ -267,6 +272,25 @@ git pull
 # 重新构建并启动
 docker-compose down
 docker-compose up -d --build
+```
+
+### Nginx 部署模式切换
+
+#### 开发模式（默认）
+- 使用卷挂载，文件修改即时生效
+- 便于调试和开发
+
+#### 生产模式
+```bash
+# 1. 构建自定义nginx镜像
+./build-nginx.sh
+
+# 2. 修改 docker-compose.yaml
+# 注释掉 nginx 的 volumes 配置
+# 取消注释 build 配置
+
+# 3. 重新启动服务
+docker-compose up -d
 ```
 
 ### 配置更新

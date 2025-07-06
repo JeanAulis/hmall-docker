@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMall 管理后台</title>
+    <link rel="stylesheet" href="css/element.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #409EFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .nav-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .nav-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px 0 rgba(0,0,0,0.15);
+        }
+        .nav-card h3 {
+            color: #409EFF;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .nav-card p {
+            color: #666;
+            margin: 0;
+            line-height: 1.6;
+        }
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #409EFF;
+        }
+        .welcome-text {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏪 HMall 商城管理系统</h1>
+        <p>欢迎使用黑马商城后台管理系统</p>
+    </div>
+    
+    <div class="container">
+        <div class="welcome-text">
+            <h2>请选择要管理的功能模块</h2>
+        </div>
+        
+        <div class="nav-cards">
+            <a href="users.html" class="nav-card">
+                <div class="icon">👥</div>
+                <h3>用户管理</h3>
+                <p>管理系统用户信息，包括用户注册、登录状态、账户余额等</p>
+            </a>
+            
+            <a href="items.html" class="nav-card">
+                <div class="icon">📦</div>
+                <h3>商品管理</h3>
+                <p>管理商城商品信息，包括商品上架、下架、库存管理等</p>
+            </a>
+        </div>
+        
+        <div style="text-align: center; margin-top: 50px; color: #999;">
+            <p>© 2025 HMall 商城管理系统</p>
+        </div>
+    </div>
+</body>
+</html> 

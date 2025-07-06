@@ -23,7 +23,24 @@ services:
     networks:
       - hmall-network
 
+  # Redis 缓存服务
+  redis:
+    image: redis:7.2-alpine
+    container_name: hmall-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --requirepass 123456
+    restart: unless-stopped
+    labels:
+      - createBy=jeanAulis
+      - createTime=2025-07-06
+    networks:
+      - hmall-network
+
   nginx:
+    # 开发阶段：使用官方镜像 + 卷挂载（便于调试）
     image: nginx:1.29.0
     container_name: hmall-nginx
     ports:
@@ -48,6 +65,27 @@ services:
       - hmall-network
     depends_on:
       - hmall-backend
+
+    # 生产阶段：使用自定义Dockerfile构建（注释掉上面的配置，取消注释下面的配置）
+    # build:
+    #   context: ./hmall-nginx
+    #   dockerfile: Dockerfile
+    # container_name: hmall-nginx
+    # ports:
+    #   - "80:80"
+    #   - "18080:18080"
+    #   - "18081:18081"
+    #   - "18082:18082"
+    # environment:
+    #   - TZ=Asia/Shanghai
+    # restart: unless-stopped
+    # labels:
+    #   - createBy=jeanAulis
+    #   - createTime=2025-07-06
+    # networks:
+    #   - hmall-network
+    # depends_on:
+    #   - hmall-backend
 
   # 后端服务
   hmall-backend:
@@ -77,6 +115,7 @@ services:
 
 volumes:
   mysql_data:
+  redis_data:
 
 networks:
   hmall-network:
