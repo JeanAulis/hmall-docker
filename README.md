@@ -1,144 +1,242 @@
-# HMall Docker 部署指南
+# HMall 商城系统
 
-## 📋 项目说明
-这是一个基于Docker的HMall商城前端部署项目，使用nginx作为Web服务器。
+## 📖 项目简介
 
-## 🚀 快速部署
+HMall 是一个基于 Spring Boot + Vue.js 的现代化电商系统，采用微服务架构设计，支持 Docker 容器化部署。
 
-### 1. 启动服务
+### ✨ 主要特性
+
+- 🛒 **完整的电商功能**：商品管理、购物车、订单处理、支付集成
+- 👥 **多端支持**：用户端、管理端、刷新管理端
+- 🔐 **安全认证**：JWT 令牌认证，权限控制
+- 🐳 **容器化部署**：Docker + Docker Compose 一键部署
+- 📱 **响应式设计**：支持多设备访问
+- 🔍 **搜索功能**：商品搜索和分类管理
+
+## 🚀 快速开始
+
+### 环境要求
+
+- Docker 20.10+
+- Docker Compose 2.0+
+- 4GB+ 可用内存
+
+### 一键部署
+
 ```bash
-# 启动nginx服务
-docker-compose up -d nginx
+# 克隆项目
+git clone <repository-url>
+cd hmall-docker
 
-# 或者启动所有服务（包括后端）
+# 启动所有服务
 docker-compose up -d
-```
 
-### 2. 查看服务状态
-```bash
+# 查看服务状态
 docker-compose ps
 ```
 
-### 3. 查看日志
-```bash
-# 查看nginx日志
-docker-compose logs nginx
+### 访问地址
 
-# 实时查看日志
-docker-compose logs -f nginx
-```
-
-### 4. 停止服务
-```bash
-docker-compose down
-```
-
-## 🌐 访问地址
-
-- **默认页面**: http://localhost
-- **用户端**: http://localhost:18080 (hmall-portal)
-- **管理端**: http://localhost:18081 (hmall-admin)
-- **刷新管理端**: http://localhost:18082 (hm-refresh-admin)
-- **后端API**: http://localhost:8080 (如果启动后端服务)
+| 服务 | 地址 | 说明 |
+|------|------|------|
+| 用户端 | http://localhost:18080 | 商城前台 |
+| 管理端 | http://localhost:18081 | 后台管理 |
+| 刷新管理端 | http://localhost:18082 | 数据刷新管理 |
+| 后端API | http://localhost:8080 | RESTful API |
 
 ## 📁 项目结构
 
 ```
 hmall-docker/
-├── docker-compose.yaml              # Docker编排文件
-├── README.md                        # 说明文档
-├── hmall-nginx/
+├── docker-compose.yaml          # Docker 编排配置
+├── README.md                    # 项目说明
+├── API.md                       # API 文档
+├── .gitignore                   # Git 忽略文件
+├── hmall-nginx/                 # Nginx 配置和静态文件
 │   ├── conf/
-│   │   ├── nginx.conf              # 原始nginx配置
-│   │   └── nginx-docker.conf       # Docker环境nginx配置
-│   ├── html/                       # 前端静态文件
-│   │   ├── hmall-portal/           # 用户端
-│   │   ├── hmall-admin/            # 管理端
-│   │   └── hm-refresh-admin/       # 刷新管理端
-│   └── logs/                       # nginx日志
-└── hmall/                          # 后端服务（可选）
-    └── hm-service/
-        └── target/
+│   │   └── nginx.conf          # Nginx 配置文件
+│   ├── html/                    # 前端静态资源
+│   │   ├── hmall-portal/       # 用户端
+│   │   ├── hmall-admin/        # 管理端
+│   │   └── hm-refresh-admin/   # 刷新管理端
+│   └── logs/                    # Nginx 日志
+└── hmall/                       # 后端服务
+    ├── hm-common/              # 公共模块
+    ├── hm-service/             # 业务服务
+    └── hmall.sql              # 数据库脚本
 ```
 
-## ⚙️ 配置说明
+## 🛠️ 开发指南
 
-### 端口映射
-- `80`: 默认nginx欢迎页面
-- `18080`: hmall-portal前端（用户端）
-- `18081`: hmall-admin前端（管理端）
-- `18082`: hm-refresh-admin前端（刷新管理端）
+### 本地开发环境
 
-### 卷挂载
-- `./hmall-nginx/html` → `/usr/share/nginx/html`: 静态文件
-- `./hmall-nginx/logs` → `/var/log/nginx`: 日志文件
-- `./hmall-nginx/conf/nginx-docker.conf` → `/etc/nginx/nginx.conf`: nginx配置
-
-## 🔧 故障排除
-
-### 1. 404错误
-如果遇到404错误，请检查：
 ```bash
-# 检查容器状态
-docker-compose ps
+# 启动后端服务
+cd hmall
+mvn spring-boot:run
 
-# 检查nginx配置
-docker exec nginx nginx -t
-
-# 检查文件挂载
-docker exec nginx ls -la /usr/share/nginx/html/
+# 启动前端服务（可选）
+# 前端文件已预编译，直接通过 Nginx 访问
 ```
 
-### 2. 端口冲突
-如果端口被占用，修改 `docker-compose.yaml` 中的端口映射：
+### 数据库初始化
+
+```bash
+# 导入数据库脚本
+mysql -u root -p < hmall/hmall.sql
+```
+
+## 📋 功能模块
+
+### 用户端 (hmall-portal)
+- 用户注册/登录
+- 商品浏览和搜索
+- 购物车管理
+- 订单创建和支付
+- 个人中心
+
+### 管理端 (hmall-admin)
+- 用户管理
+- 商品管理
+- 订单管理
+- 数据统计
+
+### 刷新管理端 (hm-refresh-admin)
+- 数据刷新
+- 缓存管理
+- 系统监控
+
+## 🔧 配置说明
+
+### 端口配置
+
+| 服务 | 容器端口 | 主机端口 | 说明 |
+|------|----------|----------|------|
+| Nginx | 80 | 18080-18082 | 前端服务 |
+| Spring Boot | 8080 | 8080 | 后端API |
+
+### 环境变量
+
 ```yaml
-ports:
-  - "8080:80"      # 改为其他端口
+# docker-compose.yaml 中的环境变量
+SPRING_PROFILES_ACTIVE: dev
+MYSQL_HOST: mysql
+MYSQL_PORT: 3306
 ```
 
-### 3. 权限问题
-如果遇到权限问题：
+## 🐛 故障排除
+
+### 常见问题
+
+1. **端口冲突**
+   ```bash
+   # 检查端口占用
+   lsof -i :18080
+   
+   # 修改 docker-compose.yaml 中的端口映射
+   ```
+
+2. **服务启动失败**
+   ```bash
+   # 查看详细日志
+   docker-compose logs -f
+   
+   # 重新构建
+   docker-compose down
+   docker-compose up -d --build
+   ```
+
+3. **数据库连接问题**
+   ```bash
+   # 检查数据库服务状态
+   docker-compose ps mysql
+   
+   # 查看数据库日志
+   docker-compose logs mysql
+   ```
+
+### 日志查看
+
 ```bash
-# 重新构建并启动
-docker-compose down
-docker-compose up -d --build
+# 查看所有服务日志
+docker-compose logs
+
+# 查看特定服务日志
+docker-compose logs nginx
+docker-compose logs hm-service
+
+# 实时查看日志
+docker-compose logs -f
 ```
 
 ## 📝 常用命令
 
 ```bash
-# 启动服务
-docker-compose up -d
+# 服务管理
+docker-compose up -d              # 启动服务
+docker-compose down               # 停止服务
+docker-compose restart            # 重启服务
+docker-compose ps                 # 查看状态
 
-# 停止服务
-docker-compose down
+# 日志管理
+docker-compose logs               # 查看日志
+docker-compose logs -f            # 实时日志
+docker-compose logs --tail=100    # 查看最近100行
 
-# 重启服务
-docker-compose restart
+# 容器操作
+docker-compose exec nginx bash    # 进入容器
+docker-compose exec hm-service bash
 
-# 查看日志
-docker-compose logs
-
-# 进入容器
-docker-compose exec nginx bash
-
-# 更新配置后重启
-docker-compose restart nginx
+# 更新部署
+docker-compose pull               # 拉取最新镜像
+docker-compose up -d --build      # 重新构建并启动
 ```
 
 ## 🔄 更新部署
 
-1. 更新静态文件后，无需重启容器
-2. 更新nginx配置后，需要重启容器：
-   ```bash
-   docker-compose restart nginx
-   ```
+### 代码更新
+```bash
+# 拉取最新代码
+git pull
 
-## 📞 技术支持
+# 重新构建并启动
+docker-compose down
+docker-compose up -d --build
+```
 
-如果遇到问题，请检查：
-1. Docker和Docker Compose版本
-2. 文件路径是否正确
-3. 端口是否被占用
-4. nginx配置文件语法是否正确
+### 配置更新
+```bash
+# 更新 Nginx 配置后重启
+docker-compose restart nginx
 
+# 更新应用配置后重启
+docker-compose restart hm-service
+```
+
+## 📚 相关文档
+
+- [API 文档](./API.md) - 详细的 API 接口说明
+- [部署指南](./docs/deployment.md) - 详细的部署说明
+- [开发指南](./docs/development.md) - 开发环境搭建
+
+## 🤝 贡献指南
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开 Pull Request
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+
+## 📞 联系我们
+
+- 项目主页：[GitHub Repository]
+- 问题反馈：[Issues]
+- 邮箱：support@hmall.com
+
+---
+
+**注意**：本项目仅供学习和演示使用，生产环境部署请根据实际需求调整配置。 
