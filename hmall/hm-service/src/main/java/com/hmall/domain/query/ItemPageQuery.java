@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true)  // 该注解用于生成equals和hashCode方法，并且会调用父类的相应方法。这确保了当比较两个ItemPageQuery实例时，其继承自PageQuery的部分也会参与比较。
 @Data
 @ApiModel(description = "商品分页查询条件")
 public class ItemPageQuery extends PageQuery {

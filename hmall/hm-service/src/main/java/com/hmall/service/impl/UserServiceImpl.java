@@ -1,6 +1,9 @@
 package com.hmall.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hmall.common.domain.PageQuery;
+import com.hmall.common.domain.R;
 import com.hmall.common.exception.BadRequestException;
 import com.hmall.common.exception.BizIllegalException;
 import com.hmall.common.exception.ForbiddenException;
@@ -9,16 +12,20 @@ import com.hmall.config.JwtProperties;
 import com.hmall.domain.dto.LoginFormDTO;
 import com.hmall.domain.po.User;
 import com.hmall.domain.vo.UserLoginVO;
+import com.hmall.domain.vo.UserVo;
 import com.hmall.enums.UserStatus;
 import com.hmall.mapper.UserMapper;
 import com.hmall.service.IUserService;
 import com.hmall.utils.JwtTool;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.el.parser.Token;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 
 /**
  * <p>
@@ -89,5 +96,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new RuntimeException("扣款失败，可能是余额不足！");
         }
         log.info("扣款成功");
+    }
+
+    // 用户信息分页查询
+    @Override
+    public R findPage(PageQuery pageQuery) {
+        // 从ThreadLocal中获取当前用户ID
+        // Long currentUserId = UserContext.getUser();
+        // log.info("当前用户ID: {}", currentUserId);
+
+        // 执行分页查询
+        try {
+            // 使用MyBatis-Plus的分页查询
+            Page<User> page = lambdaQuery().page(new Page<>(pageQuery.getPageNo(), pageQuery.getPageSize()));
+            return R.ok(page);
+        } catch (Exception e) {
+            log.error("分页查询失败", e);
+            return R.error("查询失败");
+        }
     }
 }
