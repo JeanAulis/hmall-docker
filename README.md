@@ -322,9 +322,9 @@ docker-compose restart hm-service
 
 ## 📞 联系我们
 
-- 项目主页：[GitHub Repository]
-- 问题反馈：[Issues]
-- 邮箱：support@hmall.com
+- 项目主页：[GitHub Repository](https://github.com/JeanAulis/hmall-docker)
+- 问题反馈：[Issues](https://github.com/JeanAulis/hmall-docker/issues)
+- 邮箱：null
 
 ---
 
